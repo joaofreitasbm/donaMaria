@@ -1,0 +1,12 @@
+1: nos resumos gerais, se a probabilidade de chuva for acima de 60%, retornar a hora com a maior
+probabilidade de chuva, e quantos %.
+
+
+
+
+
+
+
+    
+horas   00  01  02  03  04  05  06  07  08  09  10  11  12  13  14  15  16  17  18  19  20  21  22  23
+index  -24 -23 -22 -21 -20 -19 -18 -17 -16 -15 -14 -13 -12 -11 -10 -09 -08 -07 -06 -05 -04 -03 -02 -01
