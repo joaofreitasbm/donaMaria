@@ -16,25 +16,6 @@ import requests
 # 4º: sb: raspagem de dados usando os dados inseridos nos passos anteriores
 # >>> sb = BeautifulSoup(rq1.text, 'html.parser')~
 
-
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~   VARIAVEIS UNIVERSAIS   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-# CONVERTENDO DAQUI PRO DEB
-#useragent = {"User-Agent": 
-#             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36"}
-
-#urlagora = 'https://www.accuweather.com/pt/br/pacatuba/32479/weather-forecast/32479'
-#rqagora = requests.get(urlagora, headers=useragent)
-#sbagora = BeautifulSoup(rqagora.text, 'html.parser')
-
-#urlgeral = f'https://www.accuweather.com/pt/br/pacatuba/32479/hourly-weather-forecast/32479?day='
-#rqgeral = requests.get(urlgeral, headers=useragent)
-#sbgeral = BeautifulSoup(rqgeral.text, 'html.parser')
-
-
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~     FUNÇÕES SIMPLES      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -44,7 +25,7 @@ def fagora(sbatual): # TODOS VALORES DA HORA ATUAL APENAS
     agoratemp = sbatual.find('div', class_='temp').text
     agoracond = sbatual.find('div', class_='phrase').text #manter com inicial maiuscula
     agorachuva = sbatual.find('p', class_='minutecast-banner__phrase').text.lower()
-    agorachuva = re.findall('[a-zA-Z0-9çã]+', agorachuva)
+    agorachuva = re.findall('[a-zA-Z0-9çãí]+', agorachuva)
     
     return agorahora, agoratemp, agoracond, " ".join(agorachuva)
 
@@ -82,7 +63,7 @@ def fhoras(sb): # HORAS DA HORA SEGUINTE ÀS 23H
     horas = sb.find_all('h2', class_='date')
     horaslist = []
     for ihoras in horas:
-        horaslist.append(ihoras.text)
+        horaslist.append(int(ihoras.text))
     return horaslist
 
 def fcond(sb): # COND. CLIMÁTICAS DA HORA SEGUINTE ÀS 23H
@@ -105,15 +86,16 @@ def fchuva(sb): # POSSIBILIDADE DE CHUVA DA HORA SEGUINTE ÀS 23H
         chuvalist.append(ichuva.text)
     
     chuvalist2 = str(chuvalist)
-    chuvalist2 = re.findall('[0-9]+%', chuvalist2)
-    list(chuvalist2)
-    return chuvalist2
+    chuvalist2 = re.findall('[0-9]+', chuvalist2)
+    
+    chuvalistint = []
+    for x in chuvalist2:
+        chuvalistint.append(int(x))
+    return chuvalistint
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~     FUNÇÕES COMPOSTAS    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
 
 
 
@@ -130,7 +112,7 @@ def fcons11(sb, sbatual):
             if int(fagora(sbatual)[0][:2]) < int(fhoras(sb)[-6]): # tarde
                 return f'\nDe agora até o fim das {fagora(sbatual)[0][:2]}h o clima é de {fagora(sbatual)[1]}. {fagora(sbatual)[2]}\n'\
                 f'No decorrer da tarde, o clima é de {fmedia(ftemp(sb)[:-6])}ºC. {max(set(fcond(sb)[:-6]), key=fcond(sb)[:-6].count)} na maior parte.\n'\
-                f'E no periodo da noite, o clima é de {fmedia(ftemp(sb)[-5:])}ºC em média, {max(set(fcond(sb)[-5:]), key=fcond(sb)[-5:].count)}.\n'
+                f'E no periodo da noite, o clima é de {fmedia(ftemp(sb)[-6:])}ºC em média, {max(set(fcond(sb)[-6:]), key=fcond(sb)[-6:].count)}.\n'
         except IndexError:
             try:
                 if int(fagora(sbatual)[0][:2]) < int(fhoras(sb)[-1]): # noite
@@ -139,8 +121,30 @@ def fcons11(sb, sbatual):
             except IndexError:
                 print('passou direto e n acertou foi nada')
 
+def fcons12(sb, sbatual): #FUNCIONANDO, MAS DÁ PRA MELHORAR
+    try:
+        if int(fagora(sbatual)[0][:2]) < int(fhoras(sb)[-12]): # manhã
+            return f'Máximas de chance de chuva de hoje:\n'\
+            f'\nMaior probabilidade de chuva da manhã: {max(fchuva(sb)[:-12])}%, às {fhoras(sb)[fchuva(sb).index(max(fchuva(sb)[:-12]))]}h.\nMédia climática: {max(set(fcond(sb)[:-12]), key=fcond(sb)[:-12].count)}\n'\
+            f'\nMaior probabilidade de chuva da tarde: {max(fchuva(sb)[-12:-6])}%, às {fhoras(sb)[fchuva(sb).index(max(fchuva(sb)[-12:-6]))]}h.\nMédia climática: {max(set(fcond(sb)[-12:-6]), key=fcond(sb)[-12:-6].count)}\n'\
+            f'\nMaior probabilidade de chuva da noite: {max(fchuva(sb)[-6:])}%, às {fhoras(sb)[fchuva(sb).index(max(fchuva(sb)[-6:]))]}h.\nMédia climática: {max(set(fcond(sb)[-6:]), key=fcond(sb)[-6:].count)}\n'
+    except ValueError:
+        try:
+            if int(fagora(sbatual)[0][:2]) < int(fhoras(sb)[-6]): # tarde
+                return f'\nMáximas de chance de chuva de hoje:\n'\
+                f'Maior probabilidade de chuva da tarde: {max(fchuva(sb)[-12:-6])}%, às {fhoras(sb)[fchuva(sb).index(max(fchuva(sb)[-12:-6]))]}h. {max(set(fcond(sb)[:-6]), key=fcond(sb)[:-6].count)} na maior parte.\n'\
+                f'Maior probabilidade de chuva da noite: {max(fchuva(sb)[-6:])}%, às {fhoras(sb)[fchuva(sb).index(max(fchuva(sb)[-6:]))]}h. {max(set(fcond(sb)[-6:]), key=fcond(sb)[-6:].count)}.\n'
+        except ValueError:
+            try:
+                if int(fagora(sbatual)[0][:2]) < int(fhoras(sb)[-1]): # noite
+                    return f'\nMáximas de chance de chuva de hoje:.\n'\
+                    f'Maior probabilidade de chuva da noite: {max(fchuva(sb)[-6:])}%, às {fhoras(sb)[fchuva(sb).index(max(fchuva(sb)[-6:]))]}h. {max(set(fcond(sb)[-6:]), key=fcond(sb)[-6:].count)}.\n'
+            except ValueError:
+                print('passou direto e n acertou foi nada')
+
+
 #geral do dia seguinte com detalhes sobre manhã/tarde/noite
-def fcons21(sb): 
+def fcons21(sb): # FUNCIONANDO
     return f'\nAssim ficará o tempo amanhã:'\
             f'\nO clima fica em média em {fmedia(ftemp(sb)[:-12])}ºC durante a manhã.\nMédia climática: {max(set(fcond(sb)[:-12]), key=fcond(sb)[:-12].count)}\n'\
             f'\nNo decorrer da tarde, o clima é de {fmedia(ftemp(sb)[-12:-6])}ºC em média.\nMédia climática: {max(set(fcond(sb)[-12:-6]), key=fcond(sb)[-12:-6].count)}\n'\

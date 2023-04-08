@@ -4,7 +4,6 @@ varinput = input('\nO que você deseja saber?\n> ') # recebe solicitação do us
 auxinput = re.split(r'[ ? ]+', varinput) # remove  interrogações e espaços desnecessários
 listinput = list(filter(None, auxinput)) # remove itens vazios da lista gerada pelo re.split
 
-
 # as informações daqui funcionam em conjunto com os dicionários pra setar o dia e modo da solicitação
 mododia = 0     # (agora = 0, hoje = 1, amanhã = 2, dias da semana = 3.)
 modobusca = 0   # (geral = 1, chuva = 2, sol = 3.)
@@ -68,12 +67,10 @@ if mododia == 0: # FUNCIONANDO // RESOLVIDO
 
 # respostas para previsões do dia atual:
 elif mododia == 1:
-    if modobusca == 1: # geral 
-        #print('debug 11')
-        print(fcons11(sb, sbatual))
-    elif modobusca == 2: # chuva # NÃO COMEÇAR
-        print('debug 12')
-        print('Você quer saber se vai chover hoje mas isso ainda está sendo desenvolvido.')
+    if modobusca == 1: # geral // FUNCIONANDO
+        print(fcons11(sb, sbatual)) 
+    elif modobusca == 2: # chuva // FUNCIONANDO (melhorar se possivel)
+        print(fcons12(sb, sbatual))
     elif modobusca ==3: # sol # NÃO COMEÇAR
         print('debug 13')
         print('Você quer saber se vai fazer sol hoje mas isso ainda está sendo desenvolvido.')
@@ -82,7 +79,7 @@ elif mododia == 1:
 elif mododia == 2:
     if modobusca == 1:
         print('debug 21')
-        print(fcons21())
+        print(fcons21(sb))
     elif modobusca == 2:
         print('debug 22')
         print('Você quer saber se vai chover amanhã mas isso ainda está sendo desenvolvido.')

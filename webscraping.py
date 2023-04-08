@@ -17,37 +17,37 @@ dicchuva = ['chuva', 'chover', 'nublado', 'chove']
 dicsol = ['sol', 'ensolarado', 'limpo', 'céu']
 dicdias = ['segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo']
 
+
 # para saber qual dia o usuário deseja: 
 for x in listinput:
     if x in dicagora:
-        mododia = 0 # hora atual
+        mododia = 0
         break
     elif x in dichoje:
-        mododia = 1 # restante do dia
+        mododia = 1
         break
     elif x in dicamanha:
-        mododia = 2 # amanhã
+        mododia = 2
         break
     elif x in dicdias:
-        mododia = 3 # busca baseada no dia da semana
+        mododia = 3
         print(dicdias.index(x))
         break
     
 # para saber o que foi solicitado: (ex: se o dia vai ser ensolarado ou se vai chover)
 for x in listinput:
     if x in dicgeral:
-        modobusca = 1 # busca geral
+        modobusca = 1
         break
     elif x in dicchuva:
-        modobusca = 2 # busca sobre chuva / tempo nublado
+        modobusca = 2
         break
     elif x in dicsol:
-        modobusca = 3 # busca sobre sol / céu limpo
+        modobusca = 3
         break
 
 useragent = {"User-Agent": 
-             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36",
-             'Accept-Language': 'lang=pt-BR'}
+             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36"}
 
 # para buscas que se referem a dados da hora atual:
 urlatual = 'https://www.accuweather.com/pt/br/pacatuba/32479/weather-forecast/32479'
@@ -59,6 +59,7 @@ url = f'https://www.accuweather.com/pt/br/pacatuba/32479/hourly-weather-forecast
 rq = requests.get(url, headers=useragent)
 sb = BeautifulSoup(rq.text, 'html.parser')
 
+
 # onde a magia acontece
 # resposta para AGORA:
 if mododia == 0: # FUNCIONANDO // RESOLVIDO
@@ -66,12 +67,10 @@ if mododia == 0: # FUNCIONANDO // RESOLVIDO
 
 # respostas para previsões do dia atual:
 elif mododia == 1:
-    if modobusca == 1: # geral 
-        #print('debug 11')
-        print(fcons11(sb, sbatual))
-    elif modobusca == 2: # chuva # NÃO COMEÇAR
-        print('debug 12')
-        print('Você quer saber se vai chover hoje mas isso ainda está sendo desenvolvido.')
+    if modobusca == 1: # geral // FUNCIONANDO
+        print(fcons11(sb, sbatual)) 
+    elif modobusca == 2: # chuva // FUNCIONANDO (melhorar se possivel)
+        print(fcons12(sb, sbatual))
     elif modobusca ==3: # sol # NÃO COMEÇAR
         print('debug 13')
         print('Você quer saber se vai fazer sol hoje mas isso ainda está sendo desenvolvido.')
