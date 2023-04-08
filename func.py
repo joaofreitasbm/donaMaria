@@ -119,35 +119,40 @@ def fcons11(sb, sbatual):
                     return f'\nA temperatura atual é de {fagora(sbatual)[1]}, e até o fim da noite o clima fica na média dos {fmedia(ftemp(sb))}ºC.\n'\
                     f'O tempo fica majoritariamente {(max(set(fcond(sb)), key=fcond(sb).count)).lower()} essa noite.\n'
             except IndexError:
-                print('passou direto e n acertou foi nada')
+                return 'passou direto e n acertou foi nada'
 
 def fcons12(sb, sbatual): #FUNCIONANDO, MAS DÁ PRA MELHORAR
     try:
         if int(fagora(sbatual)[0][:2]) < int(fhoras(sb)[-12]): # manhã
-            return f'Máximas de chance de chuva de hoje:\n'\
-            f'\nMaior probabilidade de chuva da manhã: {max(fchuva(sb)[:-12])}%, às {fhoras(sb)[fchuva(sb).index(max(fchuva(sb)[:-12]))]}h.\nMédia climática: {max(set(fcond(sb)[:-12]), key=fcond(sb)[:-12].count)}\n'\
-            f'\nMaior probabilidade de chuva da tarde: {max(fchuva(sb)[-12:-6])}%, às {fhoras(sb)[fchuva(sb).index(max(fchuva(sb)[-12:-6]))]}h.\nMédia climática: {max(set(fcond(sb)[-12:-6]), key=fcond(sb)[-12:-6].count)}\n'\
-            f'\nMaior probabilidade de chuva da noite: {max(fchuva(sb)[-6:])}%, às {fhoras(sb)[fchuva(sb).index(max(fchuva(sb)[-6:]))]}h.\nMédia climática: {max(set(fcond(sb)[-6:]), key=fcond(sb)[-6:].count)}\n'
-    except ValueError:
+            return f'\nSituação atual do clima: {fagora(sbatual)[2]}\n'\
+            f'\nMaior probabilidade de chuva da manhã: {max(fchuva(sb)[:-12])}%, às {fhoras(sb)[:-12][fchuva(sb).index(max(fchuva(sb)[:-12]))]}h.\nMédia climática: {max(set(fcond(sb)[:-12]), key=fcond(sb)[:-12].count)}\n'\
+            f'\nMaior probabilidade de chuva da tarde: {max(fchuva(sb)[-12:-6])}%, às {fhoras(sb)[-12:-6][fchuva(sb).index(max(fchuva(sb)[-12:-6]))]}h.\nMédia climática: {max(set(fcond(sb)[-12:-6]), key=fcond(sb)[-12:-6].count)}\n'\
+            f'\nMaior probabilidade de chuva da noite: {max(fchuva(sb)[-6:])}%, às {fhoras(sb)[-6:][fchuva(sb).index(max(fchuva(sb)[-6:]))]}h.\nMédia climática: {max(set(fcond(sb)[-6:]), key=fcond(sb)[-6:].count)}\n'
+    except (ValueError, IndexError):
         try:
             if int(fagora(sbatual)[0][:2]) < int(fhoras(sb)[-6]): # tarde
-                return f'\nMáximas de chance de chuva de hoje:\n'\
-                f'Maior probabilidade de chuva da tarde: {max(fchuva(sb)[-12:-6])}%, às {fhoras(sb)[fchuva(sb).index(max(fchuva(sb)[-12:-6]))]}h. {max(set(fcond(sb)[:-6]), key=fcond(sb)[:-6].count)} na maior parte.\n'\
-                f'Maior probabilidade de chuva da noite: {max(fchuva(sb)[-6:])}%, às {fhoras(sb)[fchuva(sb).index(max(fchuva(sb)[-6:]))]}h. {max(set(fcond(sb)[-6:]), key=fcond(sb)[-6:].count)}.\n'
-        except ValueError:
+                return f'\nSituação atual do clima: {fagora(sbatual)[2]}\n'\
+                f'Maior probabilidade de chuva da tarde: {max(fchuva(sb)[-12:-6])}%, às {fhoras(sb)[-12:-6][fchuva(sb).index(max(fchuva(sb)[-12:-6]))]}h. {max(set(fcond(sb)[:-6]), key=fcond(sb)[:-6].count)} na maior parte.\n'\
+                f'Maior probabilidade de chuva da noite: {max(fchuva(sb)[-6:])}%, às {fhoras(sb)[-6:][fchuva(sb).index(max(fchuva(sb)[-6:]))]}h. {max(set(fcond(sb)[-6:]), key=fcond(sb)[-6:].count)}.\n'
+        except (ValueError, IndexError):
             try:
                 if int(fagora(sbatual)[0][:2]) < int(fhoras(sb)[-1]): # noite
-                    return f'\nMáximas de chance de chuva de hoje:.\n'\
+                    return f'\nSituação atual do clima: {fagora(sbatual)[2]}\n'\
                     f'Maior probabilidade de chuva da noite: {max(fchuva(sb)[-6:])}%, às {fhoras(sb)[fchuva(sb).index(max(fchuva(sb)[-6:]))]}h. {max(set(fcond(sb)[-6:]), key=fcond(sb)[-6:].count)}.\n'
-            except ValueError:
-                print('passou direto e n acertou foi nada')
+            except (ValueError, IndexError):
+                return 'passou direto e n acertou foi nada'
 
 
 #geral do dia seguinte com detalhes sobre manhã/tarde/noite
-def fcons21(sb): # FUNCIONANDO
+def fcons21(sb): # geral amanhã # FUNCIONANDO
     return f'\nAssim ficará o tempo amanhã:'\
             f'\nO clima fica em média em {fmedia(ftemp(sb)[:-12])}ºC durante a manhã.\nMédia climática: {max(set(fcond(sb)[:-12]), key=fcond(sb)[:-12].count)}\n'\
             f'\nNo decorrer da tarde, o clima é de {fmedia(ftemp(sb)[-12:-6])}ºC em média.\nMédia climática: {max(set(fcond(sb)[-12:-6]), key=fcond(sb)[-12:-6].count)}\n'\
             f'\nDurante a noite, o clima fica em {fmedia(ftemp(sb)[-6:])}ºC em média.\nMédia climática: {max(set(fcond(sb)[-6:]), key=fcond(sb)[-6:].count)}\n'
  
+def fcons22(sb): # chuva amanhã # FUNCIONANDO 
+    return f'Máximas de chance de chuva de amanhã:\n'\
+            f'\nMaior probabilidade de chuva da manhã: {max(fchuva(sb)[:-12])}%, às {fhoras(sb)[:-12][fchuva(sb)[:-12].index(max(fchuva(sb)[:-12]))]}h.\nMédia climática: {max(set(fcond(sb)[:-12]), key=fcond(sb)[:-12].count)}\n'\
+            f'\nMaior probabilidade de chuva da tarde: {max(fchuva(sb)[-12:-6])}%, às {fhoras(sb)[-12:-6][fchuva(sb)[-12:-6].index(max(fchuva(sb)[-12:-6]))]}h.\nMédia climática: {max(set(fcond(sb)[-12:-6]), key=fcond(sb)[-12:-6].count)}\n'\
+            f'\nMaior probabilidade de chuva da noite: {max(fchuva(sb)[-6:-1])}%, às {fhoras(sb)[-6:][fchuva(sb)[-6:-1].index(max(fchuva(sb)[-6:-1]))]}h.\nMédia climática: {max(set(fcond(sb)[-6:]), key=fcond(sb)[-6:].count)}\n'
 

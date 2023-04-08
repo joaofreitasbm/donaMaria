@@ -1,5 +1,10 @@
 1: nos resumos gerais, se a probabilidade de chuva for acima de 60%, retornar a hora com a maior
-probabilidade de chuva, e quantos %.
+probabilidade de chuva, e quantos %. - AVALIAR A NECESSIDADE/VIABILIDADE DISSO
+
+2: formatar os relatorios como manhã1 = das 00:00 ao final das 5:00
+                               manhã2 = das 06:00 ao final das 11:00
+                               tarde = das 12:00 ao final das 17:00
+                               noite = das 18:00 ao final das 23:00
 
 
 

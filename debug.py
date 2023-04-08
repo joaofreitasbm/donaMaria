@@ -82,7 +82,7 @@ elif mododia == 2:
         print(fcons21(sb))
     elif modobusca == 2:
         print('debug 22')
-        print('Você quer saber se vai chover amanhã mas isso ainda está sendo desenvolvido.')
+        print(fcons22(sb))
     elif modobusca ==3:
         print('debug 23')
         print('Você quer saber se vai fazer sol amanhã mas isso ainda está sendo desenvolvido.')
