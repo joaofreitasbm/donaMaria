@@ -7,6 +7,8 @@ manhã = horas[:-12]
 tarde = horas[-12:-6]
 noite = horas[-6:]  
 
+print(horas[:-18])
+print(horas[-18:-12])
 
 print(manhã)
 print(tarde)

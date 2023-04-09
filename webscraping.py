@@ -66,7 +66,7 @@ if mododia == 0: # FUNCIONANDO // RESOLVIDO
     print(f'São {fagora(sbatual)[0]}, e estão fazendo {fagora(sbatual)[1]}\n{fagora(sbatual)[2]}, {fagora(sbatual)[3]}.\n')
 
 # respostas para previsões do dia atual:
-elif mododia == 1:
+elif mododia == 1: # HOJE
     if modobusca == 1: # geral // FUNCIONANDO
         print(fcons11(sb, sbatual)) 
     elif modobusca == 2: # chuva // FUNCIONANDO (melhorar se possivel)
@@ -75,14 +75,12 @@ elif mododia == 1:
         print('debug 13')
         print('Você quer saber se vai fazer sol hoje mas isso ainda está sendo desenvolvido.')
 
-# respostas para o dia seguinte: # NÃO COMEÇAR
-elif mododia == 2:
-    if modobusca == 1:
-        print('debug 21')
+# respostas para o dia seguinte: 
+elif mododia == 2: # AMANHÃ
+    if modobusca == 1: # geral // FUNCIONANDO
         print(fcons21(sb))
-    elif modobusca == 2:
-        print('debug 22')
-        print('Você quer saber se vai chover amanhã mas isso ainda está sendo desenvolvido.')
+    elif modobusca == 2: # chuva // FUNCIONANDO
+        print(fcons22(sb))
     elif modobusca ==3:
         print('debug 23')
         print('Você quer saber se vai fazer sol amanhã mas isso ainda está sendo desenvolvido.')
