@@ -71,9 +71,8 @@ elif mododia == 1: # HOJE
         print(fcons11(sb, sbatual)) 
     elif modobusca == 2: # chuva // FUNCIONANDO (melhorar se possivel)
         print(fcons12(sb, sbatual))
-    elif modobusca ==3: # sol # NÃO COMEÇAR
-        print('debug 13')
-        print('Você quer saber se vai fazer sol hoje mas isso ainda está sendo desenvolvido.')
+    elif modobusca ==3: # sol # FUNCIONANDO (usar os dados do fcons12 p/ retornar dados a respeito de fazer sol)
+        print(fcons12(sb, sbatual))
 
 # respostas para o dia seguinte: 
 elif mododia == 2: # AMANHÃ
@@ -81,8 +80,7 @@ elif mododia == 2: # AMANHÃ
         print(fcons21(sb))
     elif modobusca == 2: # chuva // FUNCIONANDO
         print(fcons22(sb))
-    elif modobusca ==3:
-        print('debug 23')
-        print('Você quer saber se vai fazer sol amanhã mas isso ainda está sendo desenvolvido.')
+    elif modobusca ==3: # sol # FUNCIONANDO (usar os dados do fcons22 p/ retornar dados a respeito de fazer sol)
+        print(fcons22(sb))
 
 
